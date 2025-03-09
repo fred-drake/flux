@@ -30,7 +30,7 @@ def load_model():
         text_encoder_2=text_encoder_8bit,
         transformer=transformer_8bit,
         torch_dtype=torch.float16,
-        device_map="auto",
+        device_map="balanced",
     )
 
 @torch.no_grad()
