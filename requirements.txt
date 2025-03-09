@@ -1,0 +1,7 @@
+torch
+diffusers
+transformers
+numpy
+Pillow
+accelerate>=0.26.0
+bitsandbytes
