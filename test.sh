@@ -8,7 +8,7 @@ OUTPUT_DIR="$(pwd)/output"
 OUTPUT_FILE="$OUTPUT_DIR/test_image.png"
 
 # Required commands
-REQUIRED_CMDS=("docker" "file" "bc")
+REQUIRED_CMDS=("docker" "file" "identify" "bc")
 
 # Check for required dependencies
 for cmd in "${REQUIRED_CMDS[@]}"; do
