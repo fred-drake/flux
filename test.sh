@@ -52,7 +52,14 @@ if ! file "$OUTPUT_FILE" | grep -q "PNG image data"; then
     exit 1
 fi
 
-echo "Validation passed: PNG file was successfully generated."
+# Validate 512x512 image dimensions
+DIMENSIONS=$(identify -format "%wx%h" "$OUTPUT_FILE")
+if [ "$DIMENSIONS" != "512x512" ]; then
+    echo "Test Failed: 512x512 image has incorrect dimensions ($DIMENSIONS instead of 512x512)."
+    exit 1
+fi
+
+echo "Validation passed: 512x512 PNG file was successfully generated."
 
 # Clean up files
 rm -f "$OUTPUT_FILE"
