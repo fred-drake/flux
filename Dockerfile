@@ -24,5 +24,7 @@ COPY main.py .
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
+LABEL org.opencontainers.image.source https://github.com/codysnider/flux
+
 # Default entrypoint, allows CLI arguments
 ENTRYPOINT ["/app/entrypoint.sh"]
