@@ -46,9 +46,13 @@ python main.py --prompt "your text prompt here" [options]
 - `--steps` (default: 20): Number of inference steps
 - `--seed` (default: 42): Random seed for reproducibility
 - `--randgen X`: Generate X images with random seeds (ignores --seed)
-- `--output`: Output file path (default: /app/output/picture-TIMESTAMP.png)
+- `--output`: Output file path (default: `./out/pic-TIMESTAMP.png`)
 - `--model`: Model to use: `dev` (default) or `schnell`
-- `--meta`: Save metadata about this run to /app/output/meta-TIMESTAMP.json
+- `--meta`: Save metadata about this run to `./out/meta-TIMESTAMP.json`
+
+When `--meta` is used, the metadata JSON and the output image share the same
+timestamp, so you can easily match them (e.g. `pic-20260405120000.png` and
+`meta-20260405120000.json`). The `./out/` directory is created automatically.
 
 ### Examples
 

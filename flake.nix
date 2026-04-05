@@ -22,6 +22,12 @@
             python3Packages.virtualenv
           ];
 
+          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+            pkgs.stdenv.cc.cc.lib
+            pkgs.zlib
+            "/run/opengl-driver"
+          ];
+
           shellHook = ''
             if [ ! -d .venv ]; then
               echo "Creating virtual environment..."

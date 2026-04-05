@@ -1,4 +1,5 @@
 import argparse
+import os
 import torch
 import json
 import random
@@ -68,38 +69,41 @@ def main():
     parser.add_argument("--steps", type=int, default=20, help="Number of inference steps")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     parser.add_argument("--randgen", type=int, help="Generate X images with random seeds (ignores --seed)")
-    parser.add_argument("--output", type=str, help="Output file path")
+    parser.add_argument("--output", type=str, help="Output file path (default: ./out/pic-TIMESTAMP.png)")
     parser.add_argument("--model", type=str, default="dev", choices=["dev", "schnell"], help="Model to use: dev (default) or schnell")
-    parser.add_argument("--meta", action="store_true", help="Save metadata about this run to /app/output/meta-TIMESTAMP.json")
+    parser.add_argument("--meta", action="store_true", help="Save metadata about this run to ./out/meta-TIMESTAMP.json")
 
     args = parser.parse_args()
     
-    # Generate timestamp once for both files
+    # Generate timestamp once so meta and picture filenames match
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
 
+    # Ensure output directory exists
+    os.makedirs("./out", exist_ok=True)
+
     model = load_model(args.model)
-    
+
     # Handle random generation or single image
     if args.randgen:
         num_images = args.randgen
         for i in range(num_images):
             seed = random.randint(0, 2147483647)  # int32 upper bound
-            
+
             # Set output path for each image
             if args.output is None:
-                output_path = f"/app/output/picture-{timestamp}-{i+1:03d}.png"
+                output_path = f"./out/pic-{timestamp}-{i+1:03d}.png"
             else:
                 # Insert sequence number before file extension
                 name, ext = args.output.rsplit('.', 1) if '.' in args.output else (args.output, 'png')
                 output_path = f"{name}-{i+1:03d}.{ext}"
-            
+
             image = generate_image(model, args.prompt, args.width, args.height, args.steps, seed)
             image.save(output_path)
             print(f"Image {i+1}/{num_images} saved to {output_path}")
-            
+
             # Save metadata if requested
             if args.meta:
-                meta_path = f"/app/output/meta-{timestamp}-{i+1:03d}.json"
+                meta_path = f"./out/meta-{timestamp}-{i+1:03d}.json"
                 metadata = {
                     "model": args.model,
                     "prompt": args.prompt,
@@ -114,18 +118,18 @@ def main():
                 print(f"Metadata {i+1}/{num_images} saved to {meta_path}")
     else:
         seed = args.seed
-        
+
         # Set default output path if not provided
         if args.output is None:
-            args.output = f"/app/output/picture-{timestamp}.png"
+            args.output = f"./out/pic-{timestamp}.png"
 
         image = generate_image(model, args.prompt, args.width, args.height, args.steps, seed)
         image.save(args.output)
         print(f"Image saved to {args.output}")
-        
+
         # Save metadata if requested
         if args.meta:
-            meta_path = f"/app/output/meta-{timestamp}.json"
+            meta_path = f"./out/meta-{timestamp}.json"
             metadata = {
                 "model": args.model,
                 "prompt": args.prompt,
