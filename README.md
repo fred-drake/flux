@@ -2,6 +2,34 @@
 
 Code repo for article: [Containerized Flux](https://codingwithcody.com/2025/03/09/containerized-flux/)
 
+## Setup
+
+### Nix Development Environment
+
+This project uses a Nix flake for development dependencies. Enter the dev shell
+with:
+
+```bash
+nix develop
+```
+
+Or if you use direnv, it will activate automatically.
+
+### HuggingFace Authentication
+
+The FLUX.1-dev model is a gated model that requires authentication:
+
+1. Create a [HuggingFace](https://huggingface.co) account if you don't have one.
+2. Visit [black-forest-labs/FLUX.1-dev](https://huggingface.co/black-forest-labs/FLUX.1-dev)
+   and accept the model's license agreement.
+3. Create an access token at [HuggingFace Settings > Tokens](https://huggingface.co/settings/tokens)
+   (a Read token is sufficient).
+4. Log in locally:
+
+```bash
+hf auth login
+```
+
 ## Usage
 
 Run Flux image generation with the following command line arguments:
